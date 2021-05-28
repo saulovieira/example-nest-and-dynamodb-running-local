@@ -1,0 +1,47 @@
+service: serverless-nestjs
+disabledDeprecations:
+  - '*'
+variablesResolutionMode: 20210326
+configValidationMode: warn
+frameworkVersion: '2'
+useDotenv: true
+provider:
+  name: aws
+  lambdaHashingVersion: 20201221
+  iam:
+    role:
+      statements: ${file(iam/usersTableIAM.yml)}
+
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'ap-southeast-1'}
+  apiGateway:
+    shouldStartNameWithService: true
+  environment:
+    DYNAMODB_ENDPOINT: ${self:custom.endpoints.dynamodbURL}
+    USERS_TABLE_NAME: ${self:custom.usersTable.name}
+    NODE_ENV: ${env:NODE_ENV}
+resources:
+  Resources:
+    usersTable: ${file(resources/usersTable.yml):usersTable}
+custom:
+  usersTable:
+    name: ${self:provider.stage}-users
+    arn: !GetAtt usersTable.Arn
+  dynamodb:
+    stages:
+      - ${self:provider.stage}
+    start:
+      migrate: true
+  endpoints:
+    dynamodbURL: 'http://localhost:8000'
+functions:
+  app:
+    handler: dist/serverless.handler
+    events:
+      - http:
+          method: any
+          path: /{any+}
+plugins:
+  - serverless-offline
+  - serverless-dynamodb-local
