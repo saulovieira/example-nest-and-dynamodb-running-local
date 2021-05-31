@@ -66,6 +66,13 @@ All configuration are already present within the serverless.yml configuration fi
 
 The serverless.yml is the oficial file to configure an application deploy in AWS. More information in: https://www.serverless.com/
 
+## Install Serverless
+```
+$ npm install -g serverless
+
+$ npm i -g serverless-offline
+```
+
 ## install DynamoDB locally to run it offline
 ```
 $ serverless dynamodb install
