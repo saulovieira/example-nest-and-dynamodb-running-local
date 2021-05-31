@@ -85,7 +85,7 @@ $ npm run build && serverless offline start
 ```
 $ npm run build && serverless deploy
 ```
-Make sure, we always build our application before deploying to AWS. Because all the changes will reflect after the build process is successful as we upload the files from the directory into AWS S3 <code>.dist </code> folder.
+Make sure, we always build our application before deploying to AWS. Because all the changes will reflect after the build process is successful as we upload the files from the directory into AWS S3 <code>.dist </code> folder. got to http://localhost:8000/shell to access DynamoDB shell.
 
 ## Some Considerations
 The version of the serverless project is more current than in the article (see references), so some settings must be added in the serverless.yml file to avoid errors warnings during a run.
